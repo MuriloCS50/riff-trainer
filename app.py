@@ -39,10 +39,13 @@ def index():
 
     return render_template("index.html", tabInfo=tabInfo, recent=recent, favorites=favorites)
 
-@app.route("/tab", methods=["POST"])
+@app.route("/tab", methods=["GET"])
 def tab():
 
-    chosen = request.form.get("tab")
+    chosen = request.args.get("tab") or request.form.get("tab")
+
+    if not chosen:
+        return redirect("/")
     
     conn = sqlite3.connect("riffs.db")
     cursor = conn.cursor()
@@ -84,7 +87,7 @@ def tab():
 
     # Pass the favorited status of the selected riff to the tab page
 
-    if selectedId in session["favorites"]:
+    if selectedId in session.get("favorites", []):
         favorited = True
     else:
         favorited = False

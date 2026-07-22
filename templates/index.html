@@ -13,7 +13,7 @@
         <h3>Favorites</h3>
         {% if favorites %}
             {% for tab in favorites %}
-                    <form action="/tab" method="post" class="riff-favorite-item">
+                    <form action="/tab" method="get" class="riff-favorite-item">
                             <input name="tab" type="hidden" value="{{ tabInfo[((tab)-1)][0] }}">
                             <button type="submit" class="riff-button">
                                 <spam class="riff-name">{{ tabInfo[((tab)-1)][0] }}</spam>
@@ -27,7 +27,7 @@
         <h3>Recently Played</h3>
         {% if recent %}
             {% for tab in recent %}
-                    <form action="/tab" method="post" class="riff-recent-item">
+                    <form action="/tab" method="get" class="riff-recent-item">
                             <input name="tab" type="hidden" value="{{ tab }}">
                             <button type="submit" class="riff-button">
                                 <spam class="riff-name">{{ tab }}</spam>
@@ -44,7 +44,7 @@
         <input type="text" id="searchInput" placeholder="Search riffs..." autocomplete="off"> 
         <div class="exercises-selector">
             {% for tab in tabInfo %}
-                <form action="/tab" method="post" class="riff-item">
+                <form action="/tab" method="get" class="riff-item">
                     <input name="tab" type="hidden" value="{{ tab[0] }}">
                     <button type="submit" class="riff-button">
                         <spam class="riff-name">{{ tab[0] }}</spam>

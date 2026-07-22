@@ -9,7 +9,7 @@ window.addEventListener("load", () => {
         const tabElement = document.querySelector("#notation");
 
         // Initial cursor position and tab dimensions
-        let startX, startY, tabWidth, endX, staveMap;
+        let startX, startY, tabWidth, endX, staveMap, staveGap;
 
         function initCursor() {
             // Ensures the cursor is positioned correctly relative to the tab, even on window resize
@@ -37,8 +37,7 @@ window.addEventListener("load", () => {
             });
 
             // Reset cursor position
-            cursorPB.style.left = `${startX}px`;
-            cursorPB.style.top = `${startY}px`;
+            setCursorPosition(startX, startY);
         }
     }
 
@@ -60,33 +59,45 @@ window.addEventListener("load", () => {
 
         // Get x and y position of the cursor based on the current time of the audio
         function timeToXY(currentTime) {
-            totalTime = window.totalPreviewTime;
-            totalStaves = staveMap.length;
-            timePerLine = totalTime / totalStaves;
-            currentLineTime = currentTime % timePerLine;
-            let currentLineIndex = Math.floor(currentTime / timePerLine);
+            const totalTime = window.totalPreviewTime || 0;
+            const totalStaves = staveMap?.length || 0;
 
-            if (totalStaves > 1) {
-                // Calculate the gap between staves using the first two staves in the staveMap
-                staveGap = staveMap[1].yPos - staveMap[0].yPos;
+            if (!staveMap || totalStaves === 0 || totalTime <= 0) {
+                return { x: startX, y: startY };
             }
 
+            const normalizedTime = currentTime % totalTime;
 
-            if (currentLineIndex === 0) {
-                y = startY;
-            } else {
-                // This formula calculates the resulting Y position based on the current line index and the gap between staves
-                y = startY + staveGap * currentLineIndex;
+            if (totalStaves === 1) {
+                const progress = normalizedTime / totalTime;
+                const x = Math.round(startX + progress * tabWidth);
+                return { x, y: startY };
             }
 
-            const progress = currentLineTime / timePerLine;
+            const lineDuration = totalTime / totalStaves;
+            const currentLineTime = normalizedTime % lineDuration;
+            const currentLineIndex = Math.floor(normalizedTime / lineDuration) % totalStaves;
+
+            // Calculate the gap between staves using the first two staves in the staveMap
+            staveGap = staveMap[1].yPos - staveMap[0].yPos;
+
+            const y = startY + staveGap * currentLineIndex;
+            const progress = currentLineTime / lineDuration;
             const x = Math.round(startX + progress * tabWidth);
-            return {x, y};
+            return { x, y };
         }
 
         let animationId;
+
+        function setCursorPosition(x, y) {
+            cursorPB.style.left = `${x}px`;
+            cursorPB.style.top = `${y}px`;
+        }
+
         function updateCursor() {
-            if (!isPlaying) return;
+            if (!isPlaying) {
+                return;
+            } 
 
             let currentTime = Tone.Transport.seconds;
 
@@ -94,15 +105,13 @@ window.addEventListener("load", () => {
                 currentTime = currentTime % window.totalPreviewTime;
             } else {
                 if (currentTime >= window.totalPreviewTime) {
-                    stopCursor()
-                    return
+                    stopCursor();
+                    return;
                 }
             }
 
-            const {x, y} = timeToXY(currentTime)
-
-            cursorPB.style.transform = `translateX(${x-startX}px)`;
-            cursorPB.style.top = `${y}px`;
+            const {x, y} = timeToXY(currentTime);
+            setCursorPosition(x, y);
 
             // Request the next frame to keep the animation going
             animationId = requestAnimationFrame(updateCursor);
@@ -116,11 +125,14 @@ window.addEventListener("load", () => {
             requestAnimationFrame(updateCursor)
         }
 
+        function resetCursorPosition() {
+            setCursorPosition(startX, startY);
+        }
+
         stopCursor = function() {
             // Stop the animation and reset the cursor position
             cancelAnimationFrame(animationId);
-            cursorPB.style.left = `${startX}px`;
-            cursorPB.style.top = `${startY}px`;
+            resetCursorPosition();
             isPlaying = false;
         }
 
