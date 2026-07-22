@@ -1,11 +1,31 @@
 :root {
-  --bg: #0f172a;
-  --panel: #111827;
+  --bg: #cbcfde;
+  --gradient1: #d5d9e8;
+  --gradient2: #fafbfd;
+  --header-gradient1: #c1cae2;
+  --header-gradient2: #0730a2;
+  --keep-playing-bg: rgba(151, 168, 219, 0.88);
+  --placeholder-text-color: rgb(71, 71, 71);
   --border: #334155;
-  --text: #e2e8f0;
+  --text: #101112;
   --subtext: #94a3b8;
-  --accent: #38bdf8;
-  --button: #2563eb;
+  --button: #789ce9;
+  --alt-button: #1d4ed8;
+  --button-hover: #93c5fd;
+}
+
+.dark {
+  --bg: #0f172a;
+  --gradient1: #020617;
+  --gradient2: #0e1830;
+  --header-gradient1: #0f172a;
+  --header-gradient2: #142552;
+  --keep-playing-bg: rgba(15, 23, 42, 0.88);
+  --placeholder-text-color: rgb(158, 158, 158);
+  --border: #334155;
+  --text: #f5f5f5;
+  --subtext: #94a3b8;
+  --button: #1143b1;
   --button-hover: #93c5fd;
 }
 
@@ -17,13 +37,7 @@ body {
   margin: 0;
   min-height: 100vh;
   color: var(--text);
-  background: linear-gradient(145deg, #020617 0%, #0e1830 80%);
-}
-body.dark { background: linear-gradient(145deg,#0b1221,#111c33); }
-
-.dark h1, .dark h3 {
-    text-align: center;
-    color: #e4e4e4;
+  background: linear-gradient(145deg, var(--gradient1) 0%, var(--gradient2) 80%);
 }
 
 h1, h3 { margin: 0.35rem 0; color: var(--text); text-align: center; }
@@ -38,16 +52,12 @@ section {
   text-align: center;
 }
 
-.dark {
-    background-color: #242121;
-}
-
 .main-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 15px 30px;
-    background: linear-gradient(90deg, #0f172a, #142552);
+    background: linear-gradient(90deg, var(--header-gradient1), var(--header-gradient2));
     color: var(--text);
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
 }
@@ -59,8 +69,86 @@ section {
 
 .subtitle {
     font-size: 12px;
-    opacity: 0.7;
-    
+    opacity: 0.7;   
+}
+
+.apearance-container {
+    padding: 5px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    justify-content: center;
+    width: 10%;
+}
+
+.apearance-icon {
+    width: 2rem;
+    height: 2rem;
+}
+
+.inverted {
+    filter: invert(1);
+}
+
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 4rem;
+  height: 1.5rem;
+}
+
+/* Hide default HTML checkbox */
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+/* The slider */
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: var(--bg);
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 20px;
+  width: 20px;
+  left: 2px;
+  bottom: 2px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+input:checked + .slider {
+  background-color: var(--bg)
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(22px);
+  -ms-transform: translateX(22px);
+  transform: translateX(22px);
+}
+
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
 }
 
 .main-header nav {
@@ -89,7 +177,7 @@ section {
     flex-direction: column;
     margin: 2rem auto 1.5rem;
     max-width: 600px;
-    background: rgba(15, 23, 42, 0.88);
+    background: var(--keep-playing-bg);
     border: 1px solid var(--border);
     border-radius: 1rem;
     padding: 1.5rem;
@@ -98,7 +186,7 @@ section {
 }
 
 .placeholder-text {
-    color: rgb(158, 158, 158);
+    color: var(--placeholder-text-color)
 }
 
 .exercises-selector {
@@ -112,7 +200,7 @@ section {
 
 .riff-button {
   border: 1px solid var(--border);
-  background: linear-gradient(135deg, var(--button), #1d4ed8);
+  background: linear-gradient(135deg, var(--button), var(--alt-button));
   color: #fff;
   display: flex;
   flex-direction: column;

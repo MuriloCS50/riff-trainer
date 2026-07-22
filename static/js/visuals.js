@@ -94,3 +94,21 @@ document.addEventListener("DOMContentLoaded", () => {
     })
 })
 
+const toggle = document.getElementById("appearance-toggle");
+const theme = window.localStorage.getItem("theme");
+const icons = document.querySelectorAll(".apearance-icon")
+
+if (theme === "dark") {
+    document.body.classList.add("dark");
+    icons.forEach(icon => icon.classList.toggle('inverted')) 
+} 
+
+toggle.addEventListener("click", () => {
+  document.body.classList.toggle("dark");
+  if (theme === "dark") {
+    window.localStorage.setItem("theme", "light");
+  } else {
+    window.localStorage.setItem("theme", "dark");
+    icons.forEach(icon => icon.classList.toggle('inverted')) 
+  }
+});
