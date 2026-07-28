@@ -16,7 +16,7 @@
                     <form action="/tab" method="get" class="riff-favorite-item">
                             <input name="tab" type="hidden" value="{{ tabInfo[((tab)-1)][0] }}">
                             <button type="submit" class="riff-button">
-                                <spam class="riff-name">{{ tabInfo[((tab)-1)][0] }}</spam>
+                                <span class="riff-name">{{ tabInfo[((tab)-1)][0] }}</span>
                             </button>
                     </form>
             {% endfor %}
@@ -30,7 +30,7 @@
                     <form action="/tab" method="get" class="riff-recent-item">
                             <input name="tab" type="hidden" value="{{ tab }}">
                             <button type="submit" class="riff-button">
-                                <spam class="riff-name">{{ tab }}</spam>
+                                <span class="riff-name">{{ tab }}</span>
                             </button>
                     </form>
             {% endfor %}
@@ -47,7 +47,7 @@
                 <form action="/tab" method="get" class="riff-item">
                     <input name="tab" type="hidden" value="{{ tab[0] }}">
                     <button type="submit" class="riff-button">
-                        <spam class="riff-name">{{ tab[0] }}</spam>
+                        <span class="riff-name">{{ tab[0] }}</span>
                         <span class="difficulty
                             {% if tab[1] == 'easy' %}easy
                             {% elif tab[1] == 'medium' %}medium

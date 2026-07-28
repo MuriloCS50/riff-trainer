@@ -95,20 +95,28 @@ document.addEventListener("DOMContentLoaded", () => {
 })
 
 const toggle = document.getElementById("appearance-toggle");
-const theme = window.localStorage.getItem("theme");
-const icons = document.querySelectorAll(".apearance-icon")
+const icons = document.querySelectorAll(".apearance-icon");
 
-if (theme === "dark") {
-    document.body.classList.add("dark");
-    icons.forEach(icon => icon.classList.toggle('inverted')) 
-} 
+function applyTheme(themeName) {
+    const isDark = themeName === "dark";
 
-toggle.addEventListener("click", () => {
-  document.body.classList.toggle("dark");
-  if (theme === "dark") {
-    window.localStorage.setItem("theme", "light");
-  } else {
-    window.localStorage.setItem("theme", "dark");
-    icons.forEach(icon => icon.classList.toggle('inverted')) 
-  }
-});
+    document.documentElement.classList.toggle("dark", isDark);
+    document.documentElement.setAttribute("data-theme", themeName);
+    document.body.classList.toggle("dark", isDark);
+    icons.forEach(icon => icon.classList.toggle("inverted", isDark));
+
+    if (toggle) {
+        toggle.checked = isDark;
+    }
+}
+
+const savedTheme = window.localStorage.getItem("theme") || "light";
+applyTheme(savedTheme);
+
+if (toggle) {
+    toggle.addEventListener("click", () => {
+        const nextTheme = toggle.checked ? "dark" : "light";
+        window.localStorage.setItem("theme", nextTheme);
+        applyTheme(nextTheme);
+    });
+}

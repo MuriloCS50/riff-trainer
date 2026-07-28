@@ -4,6 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}{% endblock %} - Riff Trainer</title>
+    <script>
+        (function () {
+            const savedTheme = window.localStorage.getItem("theme");
+            const theme = savedTheme === "dark" || savedTheme === "light" ? savedTheme : "light";
+            document.documentElement.classList.toggle("dark", theme === "dark");
+            document.documentElement.setAttribute("data-theme", theme);
+        })();
+    </script>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
     <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='img/favicon.ico') }}">
 </head>
@@ -12,18 +20,20 @@
     <header class="main-header">
         <div class="logo"><a href="/">🎸 Riff Trainer</a></div>
         <div class="subtitle">Train your precision. Master your riffs.</div>
-        <div class="apearance-container">
-            <img class="apearance-icon" id="lightmode-icon" src="static\img\lightmode-icon.png">
-            <label class="switch">
-            <input type="checkbox" id="appearance-toggle">
-            <span class="slider round"></span>
-            </label>
-            <img class="apearance-icon" id="nightmode-icon" src="static\img\nightmode-icon.png">
+        <div class="header-actions">
+            <div class="apearance-container">
+                <img class="apearance-icon" id="lightmode-icon" src="static\img\lightmode-icon.png">
+                <label class="switch">
+                    <input type="checkbox" id="appearance-toggle">
+                    <span class="slider round"></span>
+                </label>
+                <img class="apearance-icon" id="nightmode-icon" src="static\img\nightmode-icon.png">
+            </div>
+            <nav>
+                <a href="/">Home</a>
+                <a href="/#riffs-library">Library</a>
+            </nav>
         </div>
-        <nav>
-            <a href="/">Home</a>
-            <a href="/#riffs-library">Library</a>
-        </nav>
     </header>
 
     {% block content %}

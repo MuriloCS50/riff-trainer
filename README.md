@@ -1,9 +1,13 @@
-# Project - a guitar tablature HTML viewer with integrated MIDI for training
+# Project Title: Riff Trainer
+#### Video Demo: https://youtu.be/9wQ6o6B2LMk?si=4xwffU2frBbPYWVg
+#### Description:
+  A guitar tablature HTML viewer with integrated MIDI for training guitar riffs. The application allows users to view tablatures and listen to dynamically generated MIDI audio, providing a tool for guitar players to learn and practice riffs by visualizing the tablature and hearing the audio at the same time.
 
 # Context
-A tablature is a form of musical notation used to transcribe guitar riffs. It visually represents the strings and frets of the guitar so the player can quickly understand how to play a song by looking at the note positions.
 
 A riff is a short, repeated musical phrase often used in rock and metal music. Riffs are typically played on guitar and are characterized by their catchy, memorable nature. They can be simple or complex, and they often serve as the foundation for a song's structure.
+
+A tablature is a form of musical notation used to transcribe guitar riffs. It visually represents the strings and frets of the guitar so the player can quickly understand how to play a song by looking at the note positions.
 
 This project is a web application that allows users to view guitar tablatures and listen to dynamically generated MIDI audio. The application is built using Flask for the backend, SQLite for the database, and JavaScript libraries such as Tone.js and VexTab for rendering tablatures and generating audio. The main goal is to provide a tool for guitar players to learn and practice riffs by visualizing the tablature and hearing the audio at the same time. Users can select from a collection of riffs stored in the database, view the tablature, and listen to the MIDI audio with metronome and loop controls.
 
