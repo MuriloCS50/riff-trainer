@@ -1,5 +1,5 @@
 from flask import Flask, redirect, render_template, request, jsonify, session
-import sqlite3
+import sqlite3, os
 
 conn = sqlite3.connect("riffs.db")
 cursor = conn.cursor()
@@ -156,4 +156,8 @@ def toggle_favorite():
 
 # Run app in debug mode
 if __name__ == "__main__":
-    app.run(debug=True)
+        app.run(
+        host="0.0.0.0",
+        port=int(os.environ.get("PORT", 5000)),
+        debug=True
+    )
