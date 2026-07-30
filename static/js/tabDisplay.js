@@ -1,9 +1,11 @@
 // Load the tab visually in tab.html
 // Import JSON
+let currentNotes = null;
+
 async function loadTab(id) {
-    const response = await fetch(`/riff/${id}`)
-    const notes = await response.json()
-    renderTab(notes)
+    const response = await fetch(`/riff/${id}`);
+    currentNotes = await response.json();
+    renderTab(currentNotes);
 }
 
 function formatNote(note) {
@@ -22,7 +24,16 @@ function formatNote(note) {
 
 function renderTab(notes) {
     // Use VexTab to render the tab based on the JSON data
-    let barsPerLine = 3; // Default beats per line
+    const container = document.querySelector(".tab-container");
+    const availableWidth = container.clientWidth - 20;
+
+    // Approximate width required for a single measure
+    const estimatedBarWidth = 220;
+
+    let barsPerLine = Math.floor(availableWidth / estimatedBarWidth);
+
+    // Clamp the value to keep the layout readable
+    barsPerLine = Math.max(1, Math.min(3, barsPerLine));
     let timeSignature = document.querySelector("#timeSignature").value; // Default time signature
 
     // Default spacing and options for the tab
@@ -107,17 +118,28 @@ function renderTab(notes) {
     ${tabOptions1} tabstave time=${timeSignature}/4 \n notes =|: ${noteSection} =:| ${tabOptions2}
     `;
 
-    // Initialize the VexTab renderer
+    // Limpa o SVG anterior
+    const notation = document.querySelector("#notation");
+    notation.innerHTML = "";
+
+    // Inicializa o renderer
     const VF = vextab.Vex.Flow;
 
-    const renderer = new VF.Renderer($('#notation')[0],
-        VF.Renderer.Backends.SVG);
+    const renderer = new VF.Renderer(
+        notation,
+        VF.Renderer.Backends.SVG
+    );
 
-    // Initialize VexTab artist and parser.
-    const artist = new vextab.Artist(10, 10, 680, { scale: 1.0 });
+    // Cria o Artist usando a largura disponível
+    const artist = new vextab.Artist(
+        10,
+        10,
+        availableWidth,
+        { scale: 1.0 }
+    );
+
     const tab = new vextab.VexTab(artist);
 
-    // Parse the VexTab string to effectively render the tab on the page
     tab.parse(data);
     artist.render(renderer);
 }
@@ -127,3 +149,18 @@ const tablature = document.querySelector("#tabId");
 if (tablature) {
     loadTab(tablature.dataset.id);
 }
+
+let resizeTimeout;
+
+window.addEventListener("resize", () => {
+
+    if (!currentNotes)
+        return;
+
+    clearTimeout(resizeTimeout);
+
+    resizeTimeout = setTimeout(() => {
+        renderTab(currentNotes);
+    }, 200);
+
+});
