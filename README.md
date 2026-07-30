@@ -20,6 +20,22 @@ This project is a web application that allows users to view guitar tablatures an
 - Store and manage tablatures in a SQLite database for easy retrieval and updates.
 - Use Flask sessions to track recently accessed pages and favorited tablatures for a personalized experience.
 
+# How to execute in a Docker container
+1. Ensure you have Docker installed on your machine.
+2. Clone the repository and navigate to the project directory.
+3. Build the Docker image:
+    ```
+    docker build -t riff-trainer .
+    ```
+
+4. Run the Docker container:
+    ```
+    docker run -p 5000:5000 riff-trainer
+    ```
+
+
+  alternatively, you can install the dependencies and run the application locally without Docker:
+
 # How to execute locally
 1. Clone the repository and navigate to the project directory.
 2. Create a virtual environment and activate it:
@@ -35,7 +51,8 @@ This project is a web application that allows users to view guitar tablatures an
     ```
     python app.py
     ```
-    5. Follow the instructions in the terminal to access the application in your web browser, typically at `http://localhost:5000`.
+5. Follow the instructions in the terminal to access the application in your web browser, typically at `http://localhost:5000`.
+
 # Design Choices
 
 One of the main design decisions was to separate tablature rendering, audio generation, cursor synchronization, and DOM manipulation into independent JavaScript files. Although combining these features into a single script would have reduced the number of files, separating responsibilities makes the code easier to maintain and extend.
