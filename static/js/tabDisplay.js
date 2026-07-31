@@ -28,7 +28,7 @@ function renderTab(notes) {
     const availableWidth = container.clientWidth - 20;
 
     // Approximate width required for a single measure
-    const estimatedBarWidth = 220;
+    const estimatedBarWidth = 350;
 
     let barsPerLine = Math.floor(availableWidth / estimatedBarWidth);
 
