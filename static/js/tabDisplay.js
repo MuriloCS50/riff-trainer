@@ -142,6 +142,8 @@ function renderTab(notes) {
 
     tab.parse(data);
     artist.render(renderer);
+
+    window.dispatchEvent(new Event("tabRendered"));
 }
 
 const tablature = document.querySelector("#tabId");

@@ -36,8 +36,10 @@ window.addEventListener("load", () => {
                 }
             });
 
-            // Reset cursor position
-            setCursorPosition(startX, startY);
+            // Reset only if playback is stopped
+            if (!isPlaying) {
+                setCursorPosition(startX, startY);
+            }
         }
     }
 
@@ -55,7 +57,13 @@ window.addEventListener("load", () => {
         waitForTab(); // Initial calculation
 
         // Recalculate on window resize
-        window.addEventListener('resize', initCursor);
+        window.addEventListener("tabRendered", () => {
+
+            initCursor();
+
+            updateCursorPosition();
+
+        });
 
         // Get x and y position of the cursor based on the current time of the audio
         function timeToXY(currentTime) {
@@ -85,6 +93,19 @@ window.addEventListener("load", () => {
             const progress = currentLineTime / lineDuration;
             const x = Math.round(startX + progress * tabWidth);
             return { x, y };
+        }
+
+        function updateCursorPosition() {
+            if (!isPlaying) return;
+
+            let currentTime = Tone.Transport.seconds;
+
+            if (window.loopEnabled) {
+                currentTime = currentTime % window.totalPreviewTime;
+            }
+
+            const { x, y } = timeToXY(currentTime);
+            setCursorPosition(x, y);
         }
 
         let animationId;
