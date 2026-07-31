@@ -118,11 +118,11 @@ function renderTab(notes) {
     ${tabOptions1} tabstave time=${timeSignature}/4 \n notes =|: ${noteSection} =:| ${tabOptions2}
     `;
 
-    // Limpa o SVG anterior
+    // Clear the previous SVG
     const notation = document.querySelector("#notation");
     notation.innerHTML = "";
 
-    // Inicializa o renderer
+    // Initialize the renderer
     const VF = vextab.Vex.Flow;
 
     const renderer = new VF.Renderer(
@@ -130,7 +130,7 @@ function renderTab(notes) {
         VF.Renderer.Backends.SVG
     );
 
-    // Cria o Artist usando a largura disponível
+    // Create the Artist using the available width
     const artist = new vextab.Artist(
         10,
         10,
